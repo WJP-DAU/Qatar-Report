@@ -18,7 +18,7 @@
 
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ##
-## 1.  Required packages                                                                                    ----
+## 1.  Required packages & viz functions                                                                    ----
 ##
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -59,6 +59,14 @@ path2main <- file.path(
   path2SP, "Data Analytics/6. Country Reports/Qatar-Report",
   fsep = "/"
 )
+
+# Viz functions
+source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/barsChart.R")
+source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/divbarsChart.R")
+source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/edgebarsChart.R")
+source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/radarChart.R")
+source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/lollipopChart.R")
+source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/roseChart.R")
 
 
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

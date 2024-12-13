@@ -25,7 +25,7 @@
 # Loading settings and functions
 source("code/settings.R")
 source("code/data-wrangling.R")
-# source("code/data-viz.R")
+source("code/data-viz.R")
 
 # Report outline version
 outline_version <- "v0"
@@ -55,12 +55,14 @@ figure_map <- read.xlsx(glue("../report_outline_{outline_version}.xlsx"), sheet 
 outline <- read.xlsx(glue("../report_outline_{outline_version}.xlsx"), sheet = "outline")
 
 # Study Variables
-study_variables <- unlist(
-  str_split(
-    figure_map %>%
-      filter(var_id != "TBD") %>%
-      pull(var_id),
-    ", "
+study_variables <- unique(
+  unlist(
+    str_split(
+      figure_map %>%
+        filter(var_id != "TBD") %>%
+        pull(var_id),
+      ", "
+    )
   )
 )
 
@@ -76,3 +78,38 @@ outputsReset(figure_map)
 
 # Producing a data bank
 data_bank <- DataBank(master_data)
+
+# Producing data points
+viz_panels <- figure_map %>% 
+  filter(
+    # type %in% c(
+    #   "Diverging bars", "Edgebars", "Horizontal bars", "Lollipops",
+    #   "Radar", "Rose", "Stacked bars", "Waffle"
+    #   # "Sankey","Marginal Effects",
+    # )
+    type %in% c("Stacked bars") # For testing purposes
+  ) %>%
+  pull(panelID)
+names(viz_panels) <- viz_panels
+
+data_points <- lapply(
+  viz_panels,
+  getDataPoints,
+  figure_map = figure_map
+)
+
+
+## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+##
+## 2.  Data Visualization                                                                                   ----
+##
+## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Calling a Visualizer for every panel
+data_plots <- lapply(
+  viz_panels,
+  # "Figure_4_D",
+  callVisualizer,
+  figure_map = figure_map,
+  outline    = outline
+)
