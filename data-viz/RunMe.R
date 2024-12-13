@@ -26,6 +26,7 @@
 source("code/settings.R")
 source("code/data-wrangling.R")
 source("code/data-viz.R")
+source("code/special_viz.R")
 
 # Report outline version
 outline_version <- "v0"
@@ -82,12 +83,12 @@ data_bank <- DataBank(master_data)
 # Producing data points
 viz_panels <- figure_map %>% 
   filter(
-    # type %in% c(
-    #   "Diverging bars", "Edgebars", "Horizontal bars", "Lollipops",
-    #   "Radar", "Rose", "Stacked bars", "Waffle"
-    #   # "Sankey","Marginal Effects",
-    # )
-    type %in% c("Stacked bars") # For testing purposes
+    type %in% c(
+      "Diverging bars", "Edgebars", "Horizontal bars", "Lollipops",
+      "Radar", "Rose", "Stacked bars", "Waffle"
+      # "Sankey","Marginal Effects",
+    )
+    # type %in% c("Waffle") # For testing purposes
   ) %>%
   pull(panelID)
 names(viz_panels) <- viz_panels

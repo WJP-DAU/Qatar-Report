@@ -21,7 +21,7 @@
 ##
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Extarct Viz Parameters function
+# Extract Viz Parameters function
 extractParameters <- function(pid, figure_map, outline){
   
   # Extracting general parameters
@@ -99,8 +99,12 @@ callVisualizer <- function(pid, figure_map, outline){
   print(paste("Generating ", pid))
   
   # Defining data & parameters
-  data       <- data_points[[pid]]
   parameters <- extractParameters(pid, figure_map, outline)
+  if (parameters[["unique_id"]] %in% c("crv1", "pos2", "dis1", "dis2")){
+    data       <- NULL
+  } else {
+    data       <- data_points[[pid]]
+  }
   
   # Calling visualizer
   if(parameters[["plot_function"]] == "Diverging bars"){
@@ -203,6 +207,9 @@ callVisualizer <- function(pid, figure_map, outline){
       stacked    = TRUE,
       ptheme     = WJP_theme()
     )
+  }
+  if(parameters[["plot_function"]] == "Waffle"){
+    viz <- wjp_waffle()
   }
   
   # Defining plot dimensions
