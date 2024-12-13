@@ -180,7 +180,7 @@ callVisualizer <- function(pid, figure_map, outline){
       order_var  = "order",
       color_var  = "sample",
       colors     = parameters[["color_palette"]],
-      maincat    = "Qatari"
+      maincat    = "Male"
     )
   }
   if(parameters[["plot_function"]] == "Rose"){

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="34" height="34" viewBox="0 0 34 34">
+  <defs>
+    <filter id="Elipse_100" x="0" y="0" width="34" height="34" filterUnits="userSpaceOnUse">
+      <feOffset dx="2" dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feFlood flood-color="#ccc"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Grupo_11824" data-name="Grupo 11824" transform="translate(-23 -468)">
+    <g transform="matrix(1, 0, 0, 1, 23, 468)" filter="url(#Elipse_100)">
+      <g id="Elipse_100-2" data-name="Elipse 100" transform="translate(1 1)" fill="#fff" stroke="#f5f5f5" stroke-width="1">
+        <circle cx="14" cy="14" r="14" stroke="none"/>
+        <circle cx="14" cy="14" r="13.5" fill="none"/>
+      </g>
+    </g>
+    <path id="Icon_material-file-download" data-name="Icon material-file-download" d="M11.35,5.257H8.762V1.375H4.88V5.257H2.292L6.821,9.787ZM2.292,11.081v1.294H11.35V11.081Z" transform="translate(31.179 476.625)" fill="#543aa4"/>
+  </g>
+</svg>

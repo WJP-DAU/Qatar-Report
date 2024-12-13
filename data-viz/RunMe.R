@@ -42,6 +42,10 @@ master_data <- read_dta(
     nationality = case_when(
       nation == 1 ~ "Qatari",
       nation == 2 ~ "Foreigner"
+    ),
+    gender = case_when(
+      gend == 1 ~ "Male",
+      gend == 2 ~ "Female"
     )
   )
 

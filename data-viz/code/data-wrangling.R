@@ -129,9 +129,33 @@ DataBank <- function(data) {
           ),
         
         # Nationality Sample
+        # data %>%
+        #   select(year, nationality, value = all_of(target)) %>%
+        #   group_by(year, sample = nationality, value) %>%
+        #   summarise(
+        #     count = n(),
+        #     .groups = "keep"
+        #   ) %>%
+        #   filter(
+        #     !is.na(value) & !is.na(sample) & !(value %in% c(98, 99))
+        #   ) %>%
+        #   mutate(
+        #     variable = target
+        #   ) %>%
+        #   group_by(year, sample, variable) %>%
+        #   mutate(
+        #     total  = sum(count, na.rm = T),
+        #     perc   = count/total,
+        #   ) %>%
+        #   relocate(
+        #     all_of(c("variable", "sample")),
+        #     .after = year
+        #   )
+        
+        # Gender Sample
         data %>%
-          select(year, nationality, value = all_of(target)) %>%
-          group_by(year, sample = nationality, value) %>%
+          select(year, gender, value = all_of(target)) %>%
+          group_by(year, sample = gender, value) %>%
           summarise(
             count = n(),
             .groups = "keep"
@@ -264,7 +288,7 @@ labelVars <- function(input){
     input == "q46d_G1"     ~ paste("Local government<br>officials **are elected<br>through a clean<br>process**."),
     input == "q46e_G1"     ~ paste("People can<br>**vote freely** without<br>feeling harassed<br>or pressured."),
     input == "q46h_G2"     ~ paste("Religious minorities<br>can **observe their<br>holy days**."),
-    input == "q46d_G1"     ~ paste("Workers can freely<br>bargain for their<br>**labor rights**."),
+    input == "q46b_G2"     ~ paste("Workers can freely<br>bargain for their<br>**labor rights**."),
     
     # Crime
     input == "cr_corr" ~ "Corruption, financial,\nand commercial crimes",
@@ -457,13 +481,15 @@ getDataPoints <- function(pid, figure_map){
     if (parameters["type"] == "Radar"){
       data2plot <- data2plot %>%
         mutate(
-          qatari_value    = if_else(sample == "Qatari", perc, NA_real_),
-          foreigner_value = if_else(sample == "Foreigner", perc, NA_real_)
+          # qatari_value    = if_else(sample == "Qatari", perc, NA_real_),
+          # foreigner_value = if_else(sample == "Foreigner", perc, NA_real_)
+          male_value   = if_else(sample == "Male", perc, NA_real_),
+          female_value = if_else(sample == "Female", perc, NA_real_)
         ) %>%
         group_by(variable) %>%
         mutate(
-          qatari_value   = first(qatari_value, na_rm = T),
-          foreigner_value = first(foreigner_value, na_rm = T),
+          male_value   = first(male_value, na_rm = T),
+          female_value = first(female_value, na_rm = T),
           across(
             ends_with("_value"),
             ~paste0(
@@ -476,9 +502,9 @@ getDataPoints <- function(pid, figure_map){
           ),
           across(labels,
                  ~paste0(
-                   "<span style='color:#49178e;font-size:4.217518mm'>",qatari_value,"</span>",
+                   "<span style='color:#49178e;font-size:4.217518mm'>",male_value,"</span>",
                    "<span style='color:#524F4C;font-size:4.217518mm'> | </span>",
-                   "<span style='color:#dd58b1;font-size:4.217518mm'>",foreigner_value,"</span><br>",
+                   "<span style='color:#dd58b1;font-size:4.217518mm'>",female_value,"</span><br>",
                    "<span style='color:#524F4C;font-size:3.514598mm;font-weight:bold'>",
                    labels,
                    "</span>"
