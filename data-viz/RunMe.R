@@ -29,7 +29,7 @@ source("code/data-viz.R")
 source("code/special_viz.R")
 
 # Report outline version
-outline_version <- "v0"
+outline_version <- "v2"
 
 # Loading data
 master_data <- read_dta(
@@ -50,6 +50,16 @@ master_data <- read_dta(
   )
 
 master_data <- add_specialVariables(master_data)
+
+roli_data <- read.xlsx(
+  file.path(
+    path2main,
+    "data-viz/data/roli_data.xlsx"
+  )
+) %>%
+  filter(
+    region == "MENA" | income_group == "H"
+  )
 
 # Loading figure map & outline
 figure_map <- read.xlsx(glue("../report_outline_{outline_version}.xlsx"), sheet = "figure_map") %>%
@@ -88,9 +98,8 @@ data_bank <- DataBank(master_data)
 viz_panels <- figure_map %>% 
   filter(
     type %in% c(
-      "Diverging bars", "Edgebars", "Horizontal bars", "Lollipops",
-      "Radar", "Rose", "Stacked bars", "Waffle"
-      # "Sankey","Marginal Effects",
+      "Diverging bars", "Edgebars", "Horizontal bars", 
+      "Radar", "Stacked bars", "Waffle", "Gauge"
     )
     # type %in% c("Waffle") # For testing purposes
   ) %>%
@@ -111,10 +120,10 @@ data_points <- lapply(
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Calling a Visualizer for every panel
-data_plots <- lapply(
-  viz_panels,
-  # "Figure_4_D",
-  callVisualizer,
-  figure_map = figure_map,
-  outline    = outline
-)
+# data_plots <- lapply(
+#   viz_panels,
+#   # "Figure_4_D",
+#   callVisualizer,
+#   figure_map = figure_map,
+#   outline    = outline
+# )

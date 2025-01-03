@@ -66,7 +66,7 @@ source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/divbars
 source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/edgebarsChart.R")
 source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/radarChart.R")
 source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/lollipopChart.R")
-source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/roseChart.R")
+source("https://raw.githubusercontent.com/ctoruno/WJPr/refs/heads/main/R/gaugeChart.R")
 
 
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

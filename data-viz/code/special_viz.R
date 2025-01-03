@@ -67,7 +67,7 @@ wjp_waffle <- function(){
     parts, 
     size = 1,
     rows = 5, 
-    colors = c("#a90099", "#B9B9B9"),
+    colors = c("#2a2a94", "#B9B9B9"),
     legend_pos = "left",
     # use_glyph  = "child", 
     glyph_size = 2.5

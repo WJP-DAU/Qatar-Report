@@ -29,7 +29,7 @@ add_specialVariables <- function(data){
         q8b_11 == 1 ~ 1,
         q8b_12 == 1 ~ 1,
         q8b_13 == 1 ~ 1,
-        q8b_99 == 1 ~ NA_real_,
+        q8b_99 == 1 ~ 0,
         q8a    == 1 ~ NA_real_,
         TRUE ~ 0
       ),
@@ -44,7 +44,7 @@ add_specialVariables <- function(data){
         q8b_8  == 1 ~ 1,
         q8b_9  == 1 ~ 1,
         q8b_10 == 1 ~ 1,
-        q8b_99 == 1 ~ NA_real_,
+        q8b_99 == 1 ~ 0,
         q8a    == 1 ~ NA_real_,
         TRUE ~ 0
       ),
@@ -53,12 +53,12 @@ add_specialVariables <- function(data){
         q8b_15 == 1 ~ 1,
         q8b_16 == 1 ~ 1,
         q8b_17 == 1 ~ 1,
-        q8b_99 == 1 ~ NA_real_,
+        q8b_99 == 1 ~ 0,
         q8a    == 1 ~ NA_real_,
         TRUE ~ 0
       ),
       discrimination1 = case_when(
-        q16a == 99 & q16b == 99 & q16c == 99 & q16d == 99 & q16e == 99 ~ NA_real_,
+        # q16a == 99 & q16b == 99 & q16c == 99 & q16d == 99 & q16e == 99 ~ NA_real_,
         q16a <= 4  ~ 1,
         q16b <= 4  ~ 1,
         q16c <= 4  ~ 1,
@@ -68,22 +68,25 @@ add_specialVariables <- function(data){
       ),
       
       EXP_q22e_G1_inv = case_when(
-        EXP_q22e_G1 == 1 ~ 4,
-        EXP_q22e_G1 == 2 ~ 3,
-        EXP_q22e_G1 == 3 ~ 2,
-        EXP_q22e_G1 == 4 ~ 1,
+        EXP_q22e_G1 == 1  ~ 4,
+        EXP_q22e_G1 == 2  ~ 3,
+        EXP_q22e_G1 == 3  ~ 2,
+        EXP_q22e_G1 == 4  ~ 1,
+        EXP_q22e_G1 == 99 ~ 99
       ),
       EXP_q22k_G2_inv = case_when(
-        EXP_q22k_G2 == 1 ~ 4,
-        EXP_q22k_G2 == 2 ~ 3,
-        EXP_q22k_G2 == 3 ~ 2,
-        EXP_q22k_G2 == 4 ~ 1,
+        EXP_q22k_G2 == 1  ~ 4,
+        EXP_q22k_G2 == 2  ~ 3,
+        EXP_q22k_G2 == 3  ~ 2,
+        EXP_q22k_G2 == 4  ~ 1,
+        EXP_q22k_G2 == 99 ~ 99
       ),
       EXP_q22j_G2_inv = case_when(
-        EXP_q22j_G2 == 1 ~ 4,
-        EXP_q22j_G2 == 2 ~ 3,
-        EXP_q22j_G2 == 3 ~ 2,
-        EXP_q22j_G2 == 4 ~ 1,
+        EXP_q22j_G2 == 1  ~ 4,
+        EXP_q22j_G2 == 2  ~ 3,
+        EXP_q22j_G2 == 3  ~ 2,
+        EXP_q22j_G2 == 4  ~ 1,
+        EXP_q22j_G2 == 99 ~ 99
       )
       
     )
@@ -112,7 +115,7 @@ DataBank <- function(data) {
             .groups = "keep"
           ) %>%
           filter(
-            !is.na(value) & !(value %in% c(98, 99))
+            !is.na(value) #& !(value %in% c(98, 99))
           ) %>%
           mutate(
             variable = target
@@ -128,30 +131,6 @@ DataBank <- function(data) {
             .after = year
           ),
         
-        # Nationality Sample
-        # data %>%
-        #   select(year, nationality, value = all_of(target)) %>%
-        #   group_by(year, sample = nationality, value) %>%
-        #   summarise(
-        #     count = n(),
-        #     .groups = "keep"
-        #   ) %>%
-        #   filter(
-        #     !is.na(value) & !is.na(sample) & !(value %in% c(98, 99))
-        #   ) %>%
-        #   mutate(
-        #     variable = target
-        #   ) %>%
-        #   group_by(year, sample, variable) %>%
-        #   mutate(
-        #     total  = sum(count, na.rm = T),
-        #     perc   = count/total,
-        #   ) %>%
-        #   relocate(
-        #     all_of(c("variable", "sample")),
-        #     .after = year
-        #   )
-        
         # Gender Sample
         data %>%
           select(year, gender, value = all_of(target)) %>%
@@ -161,7 +140,7 @@ DataBank <- function(data) {
             .groups = "keep"
           ) %>%
           filter(
-            !is.na(value) & !is.na(sample) & !(value %in% c(98, 99))
+            !is.na(value) & !is.na(sample) #& !(value %in% c(98, 99))
           ) %>%
           mutate(
             variable = target
@@ -194,9 +173,9 @@ labelVars <- function(input){
   output <- case_when(
     
     # Trust in Institutions
-    input == "q1a" ~ paste("People living in Qatar"),
+    input == "q1a" ~ paste("People living in Qatar     "),
     input == "q1b" ~ paste("Municipal officers"),
-    input == "q1c" ~ paste("Government officers"),
+    input == "q1c" ~ paste("Government officers      "),
     input == "q1d" ~ paste("Police officers"),
     input == "q1e" ~ paste("Prosecutors"),
     input == "q1f" ~ paste("Public defense attorneys"),
@@ -204,13 +183,13 @@ labelVars <- function(input){
     input == "q1h" ~ paste("Civil servants"),
     
     # Corruption
-    input == "q2a" ~ paste("Consultative council"),
+    input == "q2a" ~ paste("Consultative council     "),
     input == "q2b" ~ paste("Municipal officers"),
-    input == "q2c" ~ paste("Government officers"),
+    input == "q2c" ~ paste("Government officers      "),
     input == "q2d" ~ paste("Police officers"),
     input == "q2e" ~ paste("Prosecutors"),
     input == "q2f" ~ paste("Public defense attorneys"),
-    input == "q2g" ~ paste("Judges and magistrates"),
+    input == "q2g" ~ paste("Judges and magistrates  "),
     
     # Bribery Victimization
     input == "q4a" ~ paste("Request a government permit or document"),
@@ -226,7 +205,7 @@ labelVars <- function(input){
     input == "q49c_G2"     ~ paste("Ensures **the equal treatment of<br>the accused** by giving all a<br>fair trial regardless of who<br>they are."),
     input == "q49e_G1"     ~ paste("Gives **appropriate<br>punishments** that fit<br>the crime."),
     input == "EXP_q23d_G1" ~ paste("Ensures **uniform quality** by<br>providing equal service<brregardless of where<br>they live."),
-    input == "q49c_G1"     ~ paste("Ensures everyone<br>has **access** to the<brjustice system."),
+    input == "q49c_G1"     ~ paste("Ensures everyone<br>has **access** to the<br>justice system."),
     input == "q49b_G1"     ~ paste("Ensures **timeliness**<br>by dealing with<br>cases prompty and<br>efficiently."),
     
     # Criminal Justice Actors
@@ -249,7 +228,7 @@ labelVars <- function(input){
     
     input == "q48d_G1"     ~ "Are held accountable for violating laws",
     input == "EXP_q22f_G1" ~ "Are held accountable for seeking bribes",
-    input == "EXP_q22h_G1" ~ "Are held accountable for seeking bribes",
+    input == "EXP_q22h_G1" ~ "Are investigated for misconduct",
     input == "EXP_q22k_G2_inv" ~ "Do not serve the interests of gangs",
     input == "EXP_q22j_G2_inv" ~ "Do not serve the interests of politicians",
 
@@ -373,7 +352,7 @@ getDataPoints <- function(pid, figure_map){
       )
   }
   
-  if (!parameters[["type"]] %in% c("Diverging bars", "Stacked bars")){
+  if (!parameters[["type"]] %in% c("Diverging bars", "Stacked bars", "Gauge")){
     data2plot <- data2plot %>%
       group_by(year, variable, sample) %>%
       summarise(
@@ -420,7 +399,7 @@ getDataPoints <- function(pid, figure_map){
   if (parameters[["type"]] == "Horizontal bars"){
     data2plot <- data2plot %>%
       mutate(
-        label_pos = perc + 3,
+        label_pos = perc + 5,
         color_category = sample,
         value_labs = paste0(round(abs(perc),0), "%")
       )
@@ -438,14 +417,15 @@ getDataPoints <- function(pid, figure_map){
       data2plot <- data2plot %>%
         mutate(
           value = case_when(
-            value == 1 ~ "A lot",
-            value == 2 ~ "Some",
-            value == 3 ~ "Little",
-            value == 4 ~ "No trust"
+            value == 1  ~ "A lot",
+            value == 2  ~ "Some",
+            value == 3  ~ "Little",
+            value == 4  ~ "No trust",
+            value == 99 ~ "No answer"
           ),
           value = factor(
             value,
-            levels = rev(c("A lot", "Some", "Little", "No trust"))
+            levels = rev(c("A lot", "Some", "Little", "No trust", "No answer"))
           ),
           label_pos = cumsum(perc)-(perc/2)
         )
@@ -454,20 +434,53 @@ getDataPoints <- function(pid, figure_map){
       data2plot <- data2plot %>%
         mutate(
           value = case_when(
-            value == 4 ~ "All of them",
-            value == 3 ~ "Most of them",
-            value == 2 ~ "Some of them",
-            value == 1 ~ "None"
+            value == 4  ~ "All of them",
+            value == 3  ~ "Most of them",
+            value == 2  ~ "Some of them",
+            value == 1  ~ "None of them",
+            value == 99 ~ "No answer"
           ),
           value = factor(
             value,
-            levels = c("All of them", "Most of them", "Some of them", "None")
+            levels = c("No answer", "All of them", "Most of them", "Some of them", "None of them")
           ),
           label_pos = cumsum(perc)-(perc/2)
         )
     }
-    
-
+    if (parameters[["unique_id"]] %in% c("pol1","pol2", "pol3")){
+      data2plot <- data2plot %>%
+        mutate(
+          value = case_when(
+            value == 1  ~ "Very well",
+            value == 2  ~ "Fairly well",
+            value == 3  ~ "Fairly badly",
+            value == 4  ~ "Very badly",
+            value == 99 ~ "No answer"
+          ),
+          value = factor(
+            value,
+            levels = rev(c("Very well", "Fairly well", "Fairly badly", "Very badly", "No answer"))
+          ),
+          label_pos = cumsum(perc)-(perc/2)
+        )
+    }
+  }
+  if (parameters[["type"]] == "Gauge"){
+    data2plot <- data2plot %>%
+      mutate(
+        value = case_when(
+          value == 1  ~ "Very confident",
+          value == 2  ~ "Fairly confident",
+          value == 3  ~ "Not very confident",
+          value == 4  ~ "Not at all",
+          value == 99 ~ "No answer"
+        ),
+        value = factor(
+          value,
+          levels = c("Very confident", "Fairly confident", "Not very confident", "Not at all", "No answer")
+        ),
+        label_pos = cumsum(perc)-(perc/2)
+      )
   }
   
   # Calling labellers
@@ -480,31 +493,38 @@ getDataPoints <- function(pid, figure_map){
     # Special labeling for Radars
     if (parameters["type"] == "Radar"){
       data2plot <- data2plot %>%
-        mutate(
-          # qatari_value    = if_else(sample == "Qatari", perc, NA_real_),
-          # foreigner_value = if_else(sample == "Foreigner", perc, NA_real_)
-          male_value   = if_else(sample == "Male", perc, NA_real_),
-          female_value = if_else(sample == "Female", perc, NA_real_)
-        ) %>%
+        # mutate(
+        #   male_value   = if_else(sample == "Male", perc, NA_real_),
+        #   female_value = if_else(sample == "Female", perc, NA_real_)
+        # ) %>%
         group_by(variable) %>%
         mutate(
-          male_value   = first(male_value, na_rm = T),
-          female_value = first(female_value, na_rm = T),
-          across(
-            ends_with("_value"),
-            ~paste0(
-              format(
-                round(.x, 0),
-                nsmall = 0
-              ),
-              "%"
-            )
+          # male_value   = first(male_value, na_rm = T),
+          # female_value = first(female_value, na_rm = T),
+          # across(
+          #   ends_with("_value"),
+          #   ~paste0(
+          #     format(
+          #       round(.x, 0),
+          #       nsmall = 0
+          #     ),
+          #     "%"
+          #   )
+          # ),
+          value = paste0(
+            format(
+              round(perc, 0),
+              nsmall = 0
+            ),
+            "%"
           ),
           across(labels,
                  ~paste0(
-                   "<span style='color:#49178e;font-size:4.217518mm'>",male_value,"</span>",
-                   "<span style='color:#524F4C;font-size:4.217518mm'> | </span>",
-                   "<span style='color:#dd58b1;font-size:4.217518mm'>",female_value,"</span><br>",
+                   # "<span style='color:#49178e;font-size:4.217518mm'>",male_value,"</span>",
+                   # "<span style='color:#524F4C;font-size:4.217518mm'> | </span>",
+                   # "<span style='color:#dd58b1;font-size:4.217518mm'>",female_value,"</span><br>",
+                   # "<span style='color:#524F4C;font-size:3.514598mm;font-weight:bold'>",
+                   "<span style='color:#2a2a94;font-size:4.217518mm'>",value,"</span><br>",
                    "<span style='color:#524F4C;font-size:3.514598mm;font-weight:bold'>",
                    labels,
                    "</span>"
@@ -522,6 +542,14 @@ getDataPoints <- function(pid, figure_map){
     data2plot <- data2plot %>%
       mutate(
         labels = labelVals(abs(perc))
+      )
+  }
+  if (parameters["type"] == "Gauge"){
+    data2plot <- data2plot %>%
+      mutate(
+        labels = if_else(
+          perc < 5, "", labels
+        )
       )
   }
   

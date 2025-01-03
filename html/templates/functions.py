@@ -295,7 +295,7 @@ def get_dynamic_data(general_info, outline,  methodological_materials_df):
             "evenPage" : outline.loc[outline["id"] == "Acknowledgements", "evenPage"].iloc[0]
         },
         "aboutReport" : {
-            "section_page" : get_section_data("About this Report", outline),
+            "section_page" : get_section_data("Introduction", outline),
             "text"         : markdown.markdown(load_markdown_file("text/about_this_report.md", box = True)),
             "page"         : outline.loc[outline["subsection_header"] == "About this Report", "page"].iloc[0],
             "header"       : outline.loc[outline["subsection_header"] == "About this Report", "section_header"].iloc[0],
@@ -358,7 +358,7 @@ def get_thematic_parameters(id, outline, figure_map):
         header     = outline.loc[outline["id"] == id].section_header.iloc[0]
         parameters = get_section_data(header, outline)
     
-    if macro in ["singlepanel", "bipanel", "tripanel", "quadpanel", "pentapanel", "hexpanel"]:
+    if macro in ["singlepanel", "bipanel", "tripanel", "quadpanel", "pentapanel", "hexpanel", "blank"]:
         parameters = get_page_data(id, outline, figure_map)
 
     return parameters

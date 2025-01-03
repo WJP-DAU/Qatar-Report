@@ -22,7 +22,7 @@
             <div class="col-md-11 ml-4 bl-purple">
                 <p class="mb-0 ff-a c-purple">{{chart_parameters.ChartNo}}</p>
                 <p class="fs-20 mb-0"><b>{{chart_parameters.chart_title}}</b></p>                            
-                <p><i>{{chart_parameters.chart_insight}}</i><br></p>
+                <p><i>{{chart_parameters.chart_subtitle}}</i><br></p>
             </div>
         </div>
         <!-- <div class="row justify-content-center mb-2">
@@ -92,7 +92,7 @@
             <div class="col-md-11 ml-4 bl-purple">
                 <p class="mb-0 ff-a c-purple">{{chart_parameters.ChartNo}}</p>
                 <p class="fs-20 mb-0"><b>{{chart_parameters.chart_title}}</b></p>
-                <p class="mb-0"><i>{{chart_parameters.chart_insight}}</i></p>
+                <p class="mb-0"><i>{{chart_parameters.chart_subtitle}}</i></p>
             </div>
         </div>
         <!-- <div class="row justify-content-center mb-2">
@@ -167,6 +167,17 @@
                 <p class="mb-2"><i>{{chart_parameters.chart_subtitle}}</i></p>
             </div>
         </div>
+        {% if chart_parameters.legend != "None" %}
+        <div class="row justify-content-center mt-0 mb-2">
+            <div class="col-md-11">
+                <p>
+                    {% for key, color in chart_parameters.legend.items() %}
+                    <span class="bullet" style="background:{{color}}"></span><span class="mr-4">{{key}}</span>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
         {% for panel, panel_parameters in chart_parameters.panels.items() %}
         <div class="row justify-content-center mt-4">
             <div class="col-md-11">
@@ -174,7 +185,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-11 mb-2">
+            <div class="col-md-11 mb-5">
                 <img src="{{panel_parameters.imgPath}}" class="img-chart">
             </div>
         </div>
@@ -225,7 +236,7 @@
             <div class="col-md-11 ml-4 bl-purple">
                 <p class="mb-0 ff-a c-purple">{{chart_parameters.ChartNo}}</p>
                 <p class="fs-20 mb-0"><b>{{chart_parameters.chart_title}}</b></p>
-                <p class="mb-2"><i>{{chart_parameters.chart_insight}}</i></p>
+                <p class="mb-2"><i>{{chart_parameters.chart_subtitle}}</i></p>
             </div>
         </div>
         <!-- <div class="row justify-content-center mb-2">
@@ -390,7 +401,7 @@
             <div class="col-md-11 ml-4 bl-purple">
                 <p class="mb-0 ff-a c-purple">{{chart_parameters.ChartNo}}</p>
                 <p class="fs-20 mb-0"><b>{{chart_parameters.chart_title}}</b></p>
-                <p class="mb-2"><i>{{chart_parameters.chart_insight}}</i></p>
+                <p class="mb-2"><i>{{chart_parameters.chart_subtitle}}</i></p>
             </div>
         </div>
         <!-- <div class="row justify-content-center mb-2">
@@ -441,4 +452,29 @@
     <div class="page-number">{{page_data.section_header}} <b>{{page_data.page}}</b></div>
     {% endif %}
 </section>
+{% endmacro %}
+
+
+<!-- BLANK TEMPLATE -->
+{% macro blank(page_data) %}
+    {% if page_data.evenPage %}
+    <section id="{{page_data.id}}" class="eblank">
+    {% else %}
+    <section id="{{page_data.id}}" class="eblank bg-page-gray">
+    {% endif %}
+        <div class="container pt-5">
+            {% if page_data.has_subsection %}
+            <div class="row justify-content-center">
+                <div class="col-md-11 mt-4">
+                    <p class="title-p">{{page_data.subsection_header}}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% if page_data.evenPage %}
+            <div class="page-number left-number"><b>{{page_data.page}}</b> {{page_data.section_header}}</div>
+            {% else %}
+            <div class="page-number">{{page_data.section_header}} <b>{{page_data.page}}</b></div>
+            {% endif %}
+        </div>
+    </section>
 {% endmacro %}

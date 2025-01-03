@@ -150,7 +150,7 @@ callVisualizer <- function(pid, figure_map, outline){
         ptheme     = WJP_theme()
       )
     }
-    if (parameters[["unique_id"]] %in% c("cja1","cja2","cja3")){
+    if (parameters[["unique_id"]] %in% c("cja1","cja2","cja3", "dis3")){
       viz <- wjp_bars(
         data       = data,     
         labels     = "value_labs",
@@ -163,6 +163,7 @@ callVisualizer <- function(pid, figure_map, outline){
         ptheme     = WJP_theme()
       )
     }
+    
   }
   if(parameters[["plot_function"]] == "Lollipops"){
     viz <- wjp_lollipops(
@@ -180,7 +181,7 @@ callVisualizer <- function(pid, figure_map, outline){
       order_var  = "order",
       color_var  = "sample",
       colors     = parameters[["color_palette"]],
-      maincat    = "Male"
+      maincat    = "Total"
     )
   }
   if(parameters[["plot_function"]] == "Rose"){
@@ -211,6 +212,16 @@ callVisualizer <- function(pid, figure_map, outline){
   if(parameters[["plot_function"]] == "Waffle"){
     viz <- wjp_waffle()
   }
+  if(parameters[["plot_function"]] == "Gauge"){
+    viz <- wjp_gauge(
+      data   = data, 
+      target = "perc", 
+      colors = "value", 
+      labels = "labels",
+      cvec   = parameters[["color_palette"]]
+    )
+  }
+  
   
   # Defining plot dimensions
   if (parameters[["HTML_macro"]] == "singlepanel"){
@@ -220,10 +231,23 @@ callVisualizer <- function(pid, figure_map, outline){
   if (parameters[["HTML_macro"]] == "bipanel"){
     h = 68.88612
     w = 189.7883
+    if (parameters[["unique_id"]] %in% c("dis1")){
+      h = 38.88612 
+    }
+    if (parameters[["unique_id"]] %in% c("dis3")){
+      h = 110.88612 
+    }
   }
   if (parameters[["HTML_macro"]] == "tripanel"){
     h = 49.90729
     w = 189.7883
+    
+    if (parameters[["unique_id"]] %in% c("trt1")){
+      h = 21.90729 
+    }
+    if (parameters[["unique_id"]] %in% c("trt2", "cor1")){
+      h = 38.90729 
+    }
   }
   if (parameters[["HTML_macro"]] == "quadpanel"){
     h = 76.9697
