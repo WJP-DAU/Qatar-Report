@@ -52,8 +52,8 @@ wjp_waffle <- function(){
       x_pos = if_else(group == "Yes", 1, 0)
     ) %>%
     mutate(group = case_when(
-      group == "Yes" ~ "40% Yes",
-      group == "No"  ~ "60% No"
+      group == "Yes" ~ "41% Yes",
+      group == "No"  ~ "59% No"
     ))
   
   parts = c(
@@ -94,6 +94,56 @@ wjp_waffle <- function(){
       legend.background     = element_blank(), 
       legend.box.background = element_blank(), 
       plot.margin           = margin(-50,0,0,0), 
+      legend.box.just       = "center"
+    )
+  
+  return(plot)
+}
+
+wafflem <- function(data){
+  
+  parts <- round(data$perc)
+  names(parts) <- paste0(
+    data$answer, " (",
+    format(
+      round(parts, 0),
+      nsmall = 0
+    ),
+    "%)"
+  )
+  
+  # Creating plot
+  plot <- waffle(
+    parts, 
+    size = 1,
+    rows = 5, 
+    colors = c("#18538E", "#46B5FF", "#FFC818", "#FF7900", "#CCCCCC"),
+    legend_pos = "left",
+    # use_glyph  = "child", 
+    glyph_size = 2.5
+  ) +
+    theme_enhance_waffle() +
+    theme(
+      panel.spacing    = unit(0.25, "cm"),
+      strip.background = element_blank(),
+      strip.text       = element_text(size = 11, 
+                                      hjust = 0,
+                                      family = "Lato Full",
+                                      face   = "italic"),
+      legend.position    = "left",
+      plot.background    = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.major.y = element_blank(), 
+      panel.border       = element_blank(), 
+      legend.text        = element_text(hjust  = 0,
+                                        family = "Lato Full",
+                                        face   = "plain",
+                                        size   = 11),
+      legend.key.width      = unit(0.5,"cm"), 
+      legend.key.height     = unit(0.5,"cm"), 
+      legend.background     = element_blank(), 
+      legend.box.background = element_blank(), 
+      plot.margin           = margin(10,0,0,0), 
       legend.box.just       = "center"
     )
   

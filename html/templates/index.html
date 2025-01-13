@@ -198,24 +198,23 @@
                  {% endfor %}
 
                 <!--PROJECT DESIGN -->
-                <!-- {{ general.Project(dynamic_data["Project"]) }} -->
+                {{ general.Project(dynamic_data["Project"]) }}
 
                 <!--METHODOLOGY AND DESCRIPTION OF THE SAMPLE-->
-                <!-- {{method.methodologySection(dynamic_data)}} -->
-                <!-- {{ method.DS(dynamic_data) }} -->
+                {{method.methodologySection(dynamic_data)}}
+                {{ method.DS(dynamic_data) }}
 
                 <!--APPENDIX -->
-                <!-- {{general.Appendix(dynamic_data["Appendix"])}} -->
-
+                {{general.Appendix(dynamic_data["Appendix"])}}
 
                 <!--METHODOLOGICAL MATERIALS-->
-                <!-- {{general.MethodologicalMaterials(dynamic_data["methodological_materials"])}} -->
+                {{general.MethodologicalMaterials(dynamic_data["methodological_materials"])}}
 
                 <!--ABOUT WJP-->
                 {{general.AboutWJP(dynamic_data["AboutWJP"])}}
 
                 <!--OTHER PUBLICATIONS-->
-                <!-- {{general.OtherPublications(dynamic_data["otherPublications"])}} -->
+                {{general.OtherPublications(dynamic_data["otherPublications"])}}
 
                 <!--BACK COVER-->
                 {{general.logo(dynamic_data["BackCover"])}}

@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="col-12">
                                         {% for section in dynamic_data["description_sample"]["text"] %}
-                                            {% if section.title in ["COVERAGE", "GEOGRAPHY", "RACIAL AND ETHNIC BACKGROUND", "GENDER", "EDUCATION"] %}
+                                            {% if section.title in ["COVERAGE", "NATIONALITY", "RACIAL AND ETHNIC BACKGROUND", "GENDER", "EDUCATION"] %}
                                                 <p class="mb-4">
                                                     <b class="c-purple">{{ section.title }}:</b> {{ section.content | safe }}
                                                 </p>

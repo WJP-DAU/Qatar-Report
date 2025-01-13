@@ -173,13 +173,13 @@ labelVars <- function(input){
   output <- case_when(
     
     # Trust in Institutions
-    input == "q1a" ~ paste("People living in Qatar     "),
+    input == "q1a" ~ paste("Other people living in Qatar"),
     input == "q1b" ~ paste("Municipal officers"),
-    input == "q1c" ~ paste("Government officers      "),
+    input == "q1c" ~ paste("Government officers         "),
     input == "q1d" ~ paste("Police officers"),
     input == "q1e" ~ paste("Prosecutors"),
-    input == "q1f" ~ paste("Public defense attorneys"),
-    input == "q1g" ~ paste("Judges and magistrates"),
+    input == "q1f" ~ paste("Public defense attorneys    "),
+    input == "q1g" ~ paste("Judges and magistrates      "),
     input == "q1h" ~ paste("Civil servants"),
     
     # Corruption
@@ -189,7 +189,7 @@ labelVars <- function(input){
     input == "q2d" ~ paste("Police officers"),
     input == "q2e" ~ paste("Prosecutors"),
     input == "q2f" ~ paste("Public defense attorneys"),
-    input == "q2g" ~ paste("Judges and magistrates  "),
+    input == "q2g" ~ paste("Judges                  "),
     
     # Bribery Victimization
     input == "q4a" ~ paste("Request a government permit or document"),
@@ -215,29 +215,29 @@ labelVars <- function(input){
     
     # Police
     input == "q48c_G2"     ~ "Are available to help when needed",
-    input == "EXP_q22i_G2" ~ "Serve the interest of the community",
-    input == "EXP_q22h_G2" ~ "Serve the interest of regular citizens",
-    input == "q48a_G2"     ~ "Resolve security problems in  the community",
+    input == "EXP_q22i_G2" ~ "Serve the interest of the community*",
+    input == "EXP_q22h_G2" ~ "Serve the interest of regular citizens*",
+    input == "q48a_G2"     ~ "Resolve security problems in the community ",
     input == "q48b_G2"     ~ "Help them feel safe",
     
     input == "q48a_G1"     ~ "Act lawfully",
     input == "q48b_G1"     ~ "Perform effective and lawful investigations",
     input == "EXP_q22e_G1_inv" ~ "Do not use excessive force",
     input == "q48c_G1"     ~ "Respect the rights of suspects",
-    input == "q48d_G2"     ~ "Treat all people with respect",
+    input == "q48d_G2"     ~ "Treat all people with respect*",
     
     input == "q48d_G1"     ~ "Are held accountable for violating laws",
     input == "EXP_q22f_G1" ~ "Are held accountable for seeking bribes",
     input == "EXP_q22h_G1" ~ "Are investigated for misconduct",
-    input == "EXP_q22k_G2_inv" ~ "Do not serve the interests of gangs",
-    input == "EXP_q22j_G2_inv" ~ "Do not serve the interests of politicians",
+    input == "EXP_q22k_G2_inv" ~ "Do not serve the interests of gangs*",
+    input == "EXP_q22j_G2_inv" ~ "Do not serve the interests of politicians*",
 
     input == "q18a" ~ "Socioeconomic status",
     input == "q18b" ~ "Gender",
     input == "q18c" ~ "Ethnicity",
     input == "q18d" ~ "Religion",
     input == "q18e" ~ "Citizenship status",
-    input == "q18f" ~ "Sexual orientation",
+    input == "q18f" ~ "Sexual orientation or gender identity",
     
     # Victim Support
     input == "EXP_q24c_G1" ~ "Receive effective and<br>timely **medical and<br>psychological care**.",
@@ -286,7 +286,7 @@ labelVars <- function(input){
     input == "q17_9"  ~ "Physical or mental\ndisability",
     input == "q17_10" ~ "Sexual orientation",
     input == "q17_11" ~ "Education or\nincome level",
-    input == "q17_12" ~ "Nationality or inmigration\nstatus",
+    input == "q17_12" ~ "Nationality or immigration\nstatus",
     input == "q17_13" ~ "Shade of\nskin color",
     input == "q17_14" ~ "Tribe",
     input == "q17_15" ~ "Clothing or\nhairstyle",  
@@ -352,7 +352,7 @@ getDataPoints <- function(pid, figure_map){
       )
   }
   
-  if (!parameters[["type"]] %in% c("Diverging bars", "Stacked bars", "Gauge")){
+  if (!parameters[["type"]] %in% c("Diverging bars", "Stacked bars", "Gauge", "Wafflem")){
     data2plot <- data2plot %>%
       group_by(year, variable, sample) %>%
       summarise(
@@ -370,6 +370,14 @@ getDataPoints <- function(pid, figure_map){
         value_labs = if_else(
           abs(perc) <= 5, "", paste0(round(abs(perc),0), "%")
         )
+      )
+  }
+  if (parameters[["type"]] %in% c("Edgebars")){
+    data2plot <- data2plot %>%
+      ungroup() %>%
+      arrange(perc) %>%
+      mutate(
+        order_no = row_number()
       )
   }
   if (parameters[["type"]] %in% c("Lollipops")){
@@ -437,17 +445,17 @@ getDataPoints <- function(pid, figure_map){
             value == 4  ~ "All of them",
             value == 3  ~ "Most of them",
             value == 2  ~ "Some of them",
-            value == 1  ~ "None of them",
+            value == 1  ~ "Not any of them",
             value == 99 ~ "No answer"
           ),
           value = factor(
             value,
-            levels = c("No answer", "All of them", "Most of them", "Some of them", "None of them")
+            levels = c("No answer", "All of them", "Most of them", "Some of them", "Not any of them")
           ),
           label_pos = cumsum(perc)-(perc/2)
         )
     }
-    if (parameters[["unique_id"]] %in% c("pol1","pol2", "pol3")){
+    if (parameters[["unique_id"]] %in% c("pol1")){
       data2plot <- data2plot %>%
         mutate(
           value = case_when(
@@ -460,6 +468,23 @@ getDataPoints <- function(pid, figure_map){
           value = factor(
             value,
             levels = rev(c("Very well", "Fairly well", "Fairly badly", "Very badly", "No answer"))
+          ),
+          label_pos = cumsum(perc)-(perc/2)
+        )
+    }
+    if (parameters[["unique_id"]] %in% c("pol2", "pol3")){
+      data2plot <- data2plot %>%
+        mutate(
+          value = case_when(
+            value == 1  ~ "Always",
+            value == 2  ~ "Often",
+            value == 3  ~ "Rarely",
+            value == 4  ~ "Never",
+            value == 99 ~ "No answer"
+          ),
+          value = factor(
+            value,
+            levels = rev(c("Always", "Often", "Rarely", "Never", "No answer"))
           ),
           label_pos = cumsum(perc)-(perc/2)
         )
@@ -481,6 +506,20 @@ getDataPoints <- function(pid, figure_map){
         ),
         label_pos = cumsum(perc)-(perc/2)
       )
+  }
+  if (parameters[["type"]] %in% c("Wafflem")){
+    data2plot <- data2plot %>%
+      mutate(
+        answer = case_when(
+          value == 1  ~ "Always",
+          value == 2  ~ "Often",
+          value == 3  ~ "Rarely",
+          value == 4  ~ "Never",
+          value == 99 ~ "No answer"
+        ),
+        answer = factor(answer, levels = c("Always", "Often", "Rarely", "Never", "No answer"))
+      )
+    
   }
   
   # Calling labellers
@@ -559,6 +598,18 @@ getDataPoints <- function(pid, figure_map){
       mutate(
         label_pos = perc + 3,
         color_category = labels
+      )
+  }
+  if (parameters[["unique_id"]] %in% c("pcp2")){
+    data2plot <- data2plot %>%
+      mutate(
+        perc = if_else(value == 3, perc+0.25, perc)
+      )
+  }
+  if (parameters[["unique_id"]] %in% c("pcp3")){
+    data2plot <- data2plot %>%
+      mutate(
+        perc = if_else(value == 2, perc-0.25, perc)
       )
   }
   

@@ -124,13 +124,12 @@ callVisualizer <- function(pid, figure_map, outline){
   if(parameters[["plot_function"]] == "Edgebars"){
     viz <- wjp_edgebars(
       data         = data,
-      y_value      = "perc",
-      x_var        = "variable",
-      # x_lab_pos    = "order",
-      label_var    = "labels",
-      color_var    = "sample",
+      target       = "perc",
+      grouping     = "variable",
+      labels       = "labels",
       nudge_lab    = 4.5,
-      bar_colors   = parameters[["color_palette"]],
+      x_lab_pos    = "order_no", 
+      cvec         = parameters[["color_palette"]],
       margin_top   = 15,
       bar_width    = 0.5,
       ptheme       = WJP_theme()
@@ -176,11 +175,11 @@ callVisualizer <- function(pid, figure_map, outline){
     viz <- wjp_radar(
       data       = data,
       axis_var   = "variable",
-      target_var = "perc",
-      label_var  = "labels",
+      target     = "perc",
+      labels     = "labels",
       order_var  = "order",
-      color_var  = "sample",
-      colors     = parameters[["color_palette"]],
+      colors     = "sample",
+      cvec       = parameters[["color_palette"]],
       maincat    = "Total"
     )
   }
@@ -211,6 +210,9 @@ callVisualizer <- function(pid, figure_map, outline){
   }
   if(parameters[["plot_function"]] == "Waffle"){
     viz <- wjp_waffle()
+  }
+  if(parameters[["plot_function"]] == "Wafflem"){
+    viz <- wafflem(data)
   }
   if(parameters[["plot_function"]] == "Gauge"){
     viz <- wjp_gauge(
@@ -247,6 +249,9 @@ callVisualizer <- function(pid, figure_map, outline){
     }
     if (parameters[["unique_id"]] %in% c("trt2", "cor1")){
       h = 38.90729 
+    }
+    if (parameters[["unique_id"]] %in% c("pcp1", "pcp2", "pcp3")){
+      h = 38.88612 
     }
   }
   if (parameters[["HTML_macro"]] == "quadpanel"){

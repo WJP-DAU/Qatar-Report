@@ -29,7 +29,7 @@ source("code/data-viz.R")
 source("code/special_viz.R")
 
 # Report outline version
-outline_version <- "v2"
+outline_version <- "v8"
 
 # Loading data
 master_data <- read_dta(
@@ -99,7 +99,7 @@ viz_panels <- figure_map %>%
   filter(
     type %in% c(
       "Diverging bars", "Edgebars", "Horizontal bars", 
-      "Radar", "Stacked bars", "Waffle", "Gauge"
+      "Radar", "Stacked bars", "Waffle", "Wafflem", "Gauge"
     )
     # type %in% c("Waffle") # For testing purposes
   ) %>%
@@ -120,10 +120,10 @@ data_points <- lapply(
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Calling a Visualizer for every panel
-# data_plots <- lapply(
-#   viz_panels,
-#   # "Figure_4_D",
-#   callVisualizer,
-#   figure_map = figure_map,
-#   outline    = outline
-# )
+data_plots <- lapply(
+  viz_panels,
+  # "Figure_7_A",
+  callVisualizer,
+  figure_map = figure_map,
+  outline    = outline
+)

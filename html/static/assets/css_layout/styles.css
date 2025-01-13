@@ -177,6 +177,9 @@ section.bg-purple{
 .bg-purple {
   background:#482d8a
 }
+.bg-purple-2 {
+	background:#9B84D7
+  }
 
 .bg-purple a{
 	color:#fff;
@@ -1045,3 +1048,16 @@ iframe#embedMenu{
 	}
 }
 
+#SectionI, #SectionII, #SectionIV {
+	background:#8265CD
+}
+
+#insights1.c-purple, #insights2.c-purple{
+	margin-bottom: 0rem !important;
+}
+#insights1 ul, #insights2 ul{
+	margin-bottom: 0rem !important;
+}
+#insights1 ul li, #insights2 ul li {
+	padding-bottom: 1rem !important;
+}

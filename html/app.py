@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from bs4.formatter import HTMLFormatter
 from templates import functions
 
-outline_version = "v3"
+outline_version = "v8"
 path2outline = f"../report_outline_{outline_version}.xlsx"
 
 app = Flask(__name__)
