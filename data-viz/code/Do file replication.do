@@ -113,18 +113,22 @@ dtable i.q2a i.q2c i.q2b i.q2g i.q2d i.q2e i.q2f, nosample column(summary(Chart2
 ******** SECTION II ********
 **                        **
 
-***** Chart 3: Criminal Justice
+***** Chart 3: Perceptions on Court Performance
+
+dtable i.q48e_G1 i.q48f_G1 i.q48g_G1, nosample column(summary(Chart3)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart3) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart3) cell(A1) modify) replace 
 
 
-dtable i.q49a i.q49b_G2 i.q49e_G2 i.q49c_G2 i.EXP_q23d_G1 i.q49b_G1, nosample column(summary(Chart3)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart3) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart3) cell(A1) modify) replace 
+***** Chart 4: Criminal Justice
+
+dtable i.q49a i.q49b_G2 i.q49e_G2 i.q49c_G2 i.EXP_q23d_G1 i.q49b_G1, nosample column(summary(Chart4)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart4) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart4) cell(A1) modify) replace 
 
 
-***** Chart 4: Police
+***** Chart 5: Police
 
-dtable i.q48c_G2 i.q48b_G2 i.q48a_G2 i.EXP_q22h_G2 i.EXP_q22i_G2, nosample column(summary(Chart4)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart4) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart4) cell(A1) modify) replace 
+dtable i.q48c_G2 i.q48b_G2 i.q48a_G2 i.EXP_q22h_G2 i.EXP_q22i_G2, nosample column(summary(Chart5)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart5) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart5) cell(A1) modify) replace 
 
 
-***** Chart 5: Police 2
+***** Chart 6: Police 2
 
 gen force=EXP_q22e_G1
 recode force (1 =4) (2 =3) (3=2) (4=1)
@@ -132,10 +136,10 @@ label values force always
 label var force "Do not use excessive force"
 
 
-dtable i.q48a_G1 i.force i.q48b_G1 i.q48c_G1 i.q48d_G2, nosample column(summary(Chart5)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart5) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart5) cell(A1) modify) replace 
+dtable i.q48a_G1 i.force i.q48b_G1 i.q48c_G1 i.q48d_G2, nosample column(summary(Chart6)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart6) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart6) cell(A1) modify) replace 
 
 
-***** Chart 6: Police accountability
+***** Chart 7: Police accountability
 
 gen gangs=EXP_q22k_G2 
 gen polit=EXP_q22j_G2
@@ -147,12 +151,12 @@ label var gangs "Do not serve the interests of gangs"
 label var polit "Do not serve the interests of politicians"
 
 
-dtable i.EXP_q22f_G1 i.q48d_G1 i.EXP_q22h_G1 i.gangs i.polit, nosample column(summary(Chart6)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart6) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart6) cell(A1) modify) replace 
+dtable i.EXP_q22f_G1 i.q48d_G1 i.EXP_q22h_G1 i.gangs i.polit, nosample column(summary(Chart7)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart7) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart7) cell(A1) modify) replace 
 
 
-***** Chart 7: Negative bias in the Police
+***** Chart 8: Negative bias in the Police
 
-dtable i.q18f i.q18e i.q18d i.q18c i.q18a, nosample column(summary(Chart7)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart7) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart7) cell(A1) modify) replace 
+dtable i.q18f i.q18e i.q18d i.q18c i.q18a, nosample column(summary(Chart8)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart8) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart8) cell(A1) modify) replace 
 
 
 **                         **
@@ -160,7 +164,7 @@ dtable i.q18f i.q18e i.q18d i.q18c i.q18a, nosample column(summary(Chart7)) fact
 **                         **
 
 
-***** Chart 8: Fundamental Freedoms
+***** Chart 9: Fundamental Freedoms
 
 
 foreach v in q46a_G2 q46h_G2 q46f_G2 q46e_G2 q46e_G1 q46d_G2 q46d_G1 q46c_G2 q46c_G1 q46b_G2 {
@@ -186,16 +190,16 @@ label var q46h_G2 "Religious minorities can observe their holy days"
 label var q46b_G2 "Workers can freely bargain for their labor rights"
 
 
-export excel "${path2SP}\Data replication.xlsx", sheet("chart 8") firstrow(varl) cell(A1)
+export excel "${path2SP}\Data replication.xlsx", sheet("chart 9") firstrow(varl) cell(A1)
 
-putexcel set "${path2SP}\Data replication.xlsx", sheet("chart 8") modify
+putexcel set "${path2SP}\Data replication.xlsx", sheet("chart 9") modify
 putexcel B2:M4, overwri nformat(percent) 
 putexcel A1:M1, overwri bold hcenter txtwrap
 
 restore
 
 
-***** Chart 9: Discrimination experiences
+***** Chart 10: Discrimination experiences
 
 gen discrim=0
 foreach v in q16a q16b q16c q16d q16e {
@@ -204,12 +208,12 @@ foreach v in q16a q16b q16c q16d q16e {
 
 label values discrim yes
 
-dtable i.discrim, nosample column(summary(Chart9)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart9) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart9) cell(A1) modify) replace 
+dtable i.discrim, nosample column(summary(Chart10)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart10) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart10) cell(A1) modify) replace 
 
 
-***** Chart 10: Reasons why people feel discriminated
+***** Chart 11: Reasons why people feel discriminated
 
-dtable i.q17_4 i.q17_1 i.q17_11 i.q17_2 i.q17_12 i.q17_3 i.q17_5 i.q17_10 i.q17_13 i.q17_14 i.q17_7, nosample column(summary(Chart10)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart10) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart10) cell(A1) modify) replace 
+dtable i.q17_4 i.q17_1 i.q17_11 i.q17_2 i.q17_12 i.q17_3 i.q17_5 i.q17_10 i.q17_13 i.q17_14 i.q17_7, nosample column(summary(Chart11)) factor(, statistics( fvpercent)) nformat(%9.0f) name(chart11) export("${path2SP}\Data replication.xlsx", as(xlsx) sheet(chart11) cell(A1) modify) replace 
 
 
 
